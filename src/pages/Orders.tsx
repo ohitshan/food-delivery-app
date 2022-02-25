@@ -1,0 +1,33 @@
+import React, {useCallback} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  ScrollView,
+  FlatList,
+} from 'react-native';
+import {useSelector} from 'react-redux';
+import {RootState} from '../store/reducer';
+import {Order} from '../slices/order';
+import EachOrder from '../components/EachOrder';
+
+function Orders() {
+  const orders = useSelector((state: RootState) => state.order.orders);
+
+  const renderItem = useCallback(({item}: {item: Order}) => {
+    return <EachOrder item={item} />;
+  }, []);
+
+  return (
+    <View>
+      <FlatList
+        data={orders}
+        keyExtractor={item => item.orderId}
+        renderItem={renderItem}
+      />
+    </View>
+  );
+}
+
+export default Orders;
